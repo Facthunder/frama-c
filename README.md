@@ -2,7 +2,7 @@
 
 This project aims to provide a simple Docker image to encapsulate and run a [Frama-C](https://github.com/Frama-C/Frama-C-snapshot) analysis through Docker.
 
-### Run ikos
+### Run Frama-C
 
 #### Run core checks
 Assuming current directory contains the source code to analyze, simply run the following command:
