@@ -1,9 +1,37 @@
-FROM ocaml/opam2:alpine-3.10-opam
+FROM ubuntu:19.04 AS base
 
-RUN sudo apt-get update -y \
-    sudo apt-get install zlib1g-dev libgmp-dev libgtksourceview2.0-dev libgnomecanvas2-dev autoconf -y \
-    opam update \
-    opam install frama-c coq why3 alt-ergo -y
+USER root
+WORKDIR /build
 
-USER framac
-LABEL maintainer="begarco"
+RUN apt-get update -y \
+ && apt-get install -y \
+    git \
+    ocaml \
+    libyojson-ocaml-dev \
+    libocamlgraph-ocaml-dev \
+    libzarith-ocaml-dev \
+    build-essential \
+ && rm -rf /var/lib/apt/lists/* \
+ && git clone --single-branch https://github.com/Frama-C/Frama-C-snapshot.git . \
+ && git checkout -b tags/19.1 \
+ &&  ./configure \
+ && make \
+ && make install
+
+FROM ubuntu:19.04
+
+COPY --from=base /usr/local/ /usr/local/
+
+RUN apt-get update -y \
+ && apt-get install -y \
+    libfindlib-ocaml \
+    libocamlgraph-ocaml-dev \
+    libzarith-ocaml \
+    libyojson-ocaml-dev \
+ && rm -rf /var/lib/apt/lists/* \
+ && groupadd -r frama-c \
+ && useradd --no-log-init -r -g frama-c frama-c
+
+USER frama-c
+WORKDIR /src
+ENTRYPOINT ["frama-c"]

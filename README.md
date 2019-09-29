@@ -2,12 +2,12 @@
 
 This project aims to provide a simple Docker image to encapsulate and run a [Frama-C](https://github.com/Frama-C/Frama-C-snapshot) analysis through Docker.
 
-### Run ikos
+### Run Frama-C
 
 #### Run core checks
 Assuming current directory contains the source code to analyze, simply run the following command:
 ```Dockerfile
-docker run --rm -v ${PWD}:/src facthunder/frama-c:latest "frama-c . 2> report.xml"
+docker run --rm -v ${PWD}:/src facthunder/frama-c:latest -rte -eva *.c **/*.c > report.txt
 ```
 
 ### Versions matrix
@@ -15,8 +15,8 @@ Here is the versions matrix of the image:
 
 |                          TAG                           |                       FRAMA-C VERSION                       |                        BASE IMAGE                      |
 |:------------------------------------------------------:|:------------------------------------------------------------:|:------------------------------------------------------:|
-| [latest](https://hub.docker.com/r/facthunder/ikos) | [19.1](https://github.com/Frama-C/Frama-C-snapshot/releases/tag/19.1) | [ocaml/opam2:alpine-3.10-opam](https://hub.docker.com/r/ocaml/opam2) |
-|  [19.1](https://hub.docker.com/r/facthunder/ikos)  | [19.1](https://github.com/Frama-C/Frama-C-snapshot/releases/tag/19.1) | [ocaml/opam2:alpine-3.10-opam](https://hub.docker.com/r/ocaml/opam2) |
+| [latest](https://hub.docker.com/r/facthunder/ikos) | [19.1](https://github.com/Frama-C/Frama-C-snapshot/releases/tag/19.1) | [ubuntu:19.04](https://hub.docker.com/_/ubuntu) |
+|  [19.1](https://hub.docker.com/r/facthunder/ikos)  | [19.1](https://github.com/Frama-C/Frama-C-snapshot/releases/tag/19.1) | [ubuntu:19.04](https://hub.docker.com/_/ubuntu) |
 
 
 ### How to contribute
