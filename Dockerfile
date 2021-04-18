@@ -18,8 +18,7 @@ RUN apt-get update -y \
     libzarith-ocaml-dev \
     build-essential \
  && rm -rf /var/lib/apt/lists/* \
- && git clone --single-branch https://github.com/Frama-C/Frama-C-snapshot.git . \
- && git checkout -b tags/20.0 \
+ && git clone --single-branch -b tags/21.0 https://github.com/Frama-C/Frama-C-snapshot.git . \
  && ./configure \
  && make \
  && make install
