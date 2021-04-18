@@ -1,10 +1,10 @@
-FROM ubuntu:19.10 AS base
+FROM ubuntu:20.04 AS base
 
 USER root
 WORKDIR /build
 
 RUN apt-get update -y \
- && apt-get install -y \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     git \
     ocaml \
     ocaml-native-compilers \
@@ -18,7 +18,7 @@ RUN apt-get update -y \
     libzarith-ocaml-dev \
     build-essential \
  && rm -rf /var/lib/apt/lists/* \
- && git clone --single-branch -b tags/21.0 https://github.com/Frama-C/Frama-C-snapshot.git . \
+ && git clone --single-branch -b tags/21.0 https://git.frama-c.com/pub/frama-c.git . \
  && ./configure \
  && make \
  && make install
@@ -28,7 +28,7 @@ FROM ubuntu:19.10
 COPY --from=base /usr/local/ /usr/local/
 
 RUN apt-get update -y \
- && apt-get install -y \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     libfindlib-ocaml \
     libocamlgraph-ocaml-dev \
     libzarith-ocaml \
